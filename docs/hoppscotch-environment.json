@@ -1,0 +1,100 @@
+{
+  "name": "BorderFlow Local",
+  "variables": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "secret": false
+    },
+    {
+      "key": "email",
+      "value": "alice@example.com",
+      "secret": false
+    },
+    {
+      "key": "password",
+      "value": "",
+      "secret": true
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "secret": true
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "secret": true
+    },
+    {
+      "key": "cngn_wallet_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "cghs_wallet_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "cxaf_wallet_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "usdx_wallet_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "eurx_wallet_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "recipient_wallet_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "vba_account_number",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "vba_webhook_body",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "vba_webhook_signature",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "transaction_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "history_cursor",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "swap_quote_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "transfer_quote_id",
+      "value": "",
+      "secret": false
+    },
+    {
+      "key": "idempotency_key",
+      "value": "alice-operation-0001",
+      "secret": false
+    }
+  ]
+}
