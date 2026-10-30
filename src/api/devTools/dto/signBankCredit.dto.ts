@@ -48,8 +48,7 @@ export class SignBankCreditDto {
 
 export class SignedWebhookResponseDto {
   @ApiProperty({
-    description:
-      'Send this exact string as the raw webhook body (Hoppscotch saves it as vba_webhook_body)',
+    description: 'Send this exact string as the raw webhook body',
   })
   body!: string;
   @ApiProperty({ example: 'X-Webhook-Signature' }) header!: string;

@@ -14426,7 +14426,7 @@
         "properties": {
           "body": {
             "type": "string",
-            "description": "Send this exact string as the raw webhook body (Hoppscotch saves it as vba_webhook_body)"
+            "description": "Send this exact string as the raw webhook body"
           },
           "header": {
             "type": "string",
