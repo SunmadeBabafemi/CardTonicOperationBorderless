@@ -1,0 +1,68 @@
+services:
+  database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: borderflow
+      POSTGRES_PASSWORD: borderflow
+      POSTGRES_DB: borderflow
+    ports:
+      - '127.0.0.1:5434:5432'
+    volumes:
+      - borderflow-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U borderflow -d borderflow']
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  redis:
+    image: redis:7-alpine
+    command: ['redis-server', '--save', '', '--appendonly', 'no']
+    ports:
+      - '127.0.0.1:6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  api:
+    build: .
+    ports:
+      - '127.0.0.1:3000:3000'
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://borderflow:borderflow@database:5432/borderflow
+      FX_MODE: ${FX_MODE:-live}
+      FX_BASE_URL: ${FX_BASE_URL:-https://api.frankfurter.dev}
+      FX_TIMEOUT_MS: ${FX_TIMEOUT_MS:-2000}
+      FX_REFRESH_SECONDS: ${FX_REFRESH_SECONDS:-21600}
+      FX_REFRESH_CRON: '${FX_REFRESH_CRON:-0 */6 * * *}'
+      FX_QUOTE_TTL_SECONDS: ${FX_QUOTE_TTL_SECONDS:-300}
+      REDIS_URL: redis://redis:6379
+      REDIS_KEY_PREFIX: ${REDIS_KEY_PREFIX:-borderflow}
+      REDIS_TIMEOUT_MS: ${REDIS_TIMEOUT_MS:-1000}
+      AUTH_JWT_SECRET: ${AUTH_JWT_SECRET:?Set AUTH_JWT_SECRET to a randomly generated secret of at least 64 bytes}
+      AUTH_JWT_ISSUER: ${AUTH_JWT_ISSUER:-borderflow}
+      AUTH_JWT_AUDIENCE: ${AUTH_JWT_AUDIENCE:-borderflow-api}
+      AUTH_ACCESS_TTL_SECONDS: ${AUTH_ACCESS_TTL_SECONDS:-3600}
+      AUTH_REFRESH_TTL_SECONDS: ${AUTH_REFRESH_TTL_SECONDS:-2592000}
+      VBA_WEBHOOK_SECRET: ${VBA_WEBHOOK_SECRET:-}
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 4s
+      start_period: 15s
+      retries: 5
+volumes:
+  borderflow-data:
