@@ -27,8 +27,7 @@
     "test": "node scripts/test.cjs",
     "test:unit": "jest --selectProjects unit --runInBand",
     "test:api": "jest --selectProjects api --runInBand",
-    "test:cov": "node scripts/test.cjs --coverage",
-    "docs:hoppscotch": "node scripts/generateHoppscotch.cjs"
+    "test:cov": "node scripts/test.cjs --coverage"
   },
   "dependencies": {
     "@nestjs/bullmq": "10.2.3",

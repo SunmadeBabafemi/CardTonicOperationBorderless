@@ -44,7 +44,7 @@ All tokens and funding are simulated. Each stablecoin is assumed to track its fi
 | Money maths      | `decimal.js` (no floating point)                                              |
 | Tests            | Jest + Supertest against real PostgreSQL and Redis                            |
 | Tooling          | Yarn, ESLint, Prettier, Docker Compose, GitHub Actions CI                     |
-| API docs         | OpenAPI (Swagger UI) and a Hoppscotch collection                              |
+| API docs         | OpenAPI (Swagger UI)                                                          |
 
 ## Why PostgreSQL
 
@@ -111,7 +111,7 @@ yarn test
 
 The runner starts a throwaway PostgreSQL and Redis with Docker Compose on free ports, runs the unit and API suites, then removes them (Docker must be running). The suites never call the public FX provider.
 
-The 142 tests cover:
+The 130 tests cover:
 
 - Precision and validation, plus duplicate identities and wallets
 - Every one of the 20 conversion directions, deposits, swaps, and both kinds of transfer
@@ -507,10 +507,7 @@ curl -s http://localhost:3000/v1/webhooks/virtual-bank-accounts/credits \
 
 ## API documentation
 
-- OpenAPI: Swagger UI at `/docs`, JSON at `/openapi.json`, committed as [docs/openapi.json](docs/openapi.json) (`yarn docs:generate`).
-- Hoppscotch: import [docs/hoppscotch-collection.json](docs/hoppscotch-collection.json) and [docs/hoppscotch-environment.json](docs/hoppscotch-environment.json) (`yarn docs:hoppscotch` regenerates them).
-  - **Saved automatically:** post-request scripts save tokens, each `<currency>_wallet_id`, quote IDs, `vba_account_number`, and the signed webhook body and signature.
-  - **Set yourself:** `idempotency_key` for each new operation, and `recipient_wallet_id` before a transfer.
+- OpenAPI: Swagger UI at `/docs`, JSON at `/openapi.json`, committed as [docs/openapi.json](docs/openapi.json) (`yarn docs:generate`). Import it into Postman, Insomnia or any OpenAPI client.
 
 ## Assumptions, limitations and next steps
 
