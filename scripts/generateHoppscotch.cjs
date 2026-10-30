@@ -277,38 +277,6 @@ write('docs/hoppscotch-environment.json', {
     { key: 'idempotency_key', value: 'alice-operation-0001', secret: false },
   ],
 });
-write('docs/hoppscotch-sync-plan.json', {
-  format: 'source-derived-hoppscotch-sync-plan-v3',
-  status: 'prepared_for_sync',
-  target_collection: null,
-  authentication_note:
-    'Signed JWT access tokens required on wallet/transaction operations, rate quotes, virtual bank accounts and auth profile/logout. Register/login/refresh, the rate matrix, health, and Swagger are public; the virtual bank account webhook is HMAC-signed instead. Refresh requires the single-use refresh token in its JSON body.',
-  counts: {
-    controller_endpoints: new Set(
-      requests
-        .filter((entry) => entry.module !== 'Documentation')
-        .map((entry) => `${entry.method} ${entry.path}`),
-    ).size,
-    swagger_routes: 5,
-    prepared_requests: requests.length,
-    created_requests: 0,
-    updated_requests: 0,
-    deleted_requests: 0,
-    executed_requests: 0,
-  },
-  sync_policy: {
-    list_collections_first: true,
-    select_existing_empty_collection: true,
-    ask_if_multiple_candidates: true,
-    matching:
-      'Compare method and full path; normalize path parameter names and ignore host/query/trailing slash. For POST /v1/rates/quotes, also match the request name (swap or transfer preview). Review unresolved variables or ambiguous concrete IDs.',
-    preserve_unrelated_metadata_and_scripts: true,
-    update_existing_matches: true,
-    delete_existing_requests: false,
-    execute_requests: false,
-  },
-  requests,
-});
 console.log(
   `Prepared ${requests.length} Hoppscotch requests from OpenAPI; no remote changes.`,
 );
